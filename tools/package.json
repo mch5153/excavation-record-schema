@@ -1,0 +1,11 @@
+{
+  "name": "excavation-record-schema-tools",
+  "private": true,
+  "description": "schema/schema.dbml 에서 DDL·데이터 사전·ERD 를 생성하는 스크립트",
+  "scripts": {
+    "build": "node build_docs.js"
+  },
+  "devDependencies": {
+    "@dbml/core": "^10.1.1"
+  }
+}

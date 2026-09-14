@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "이 스키마를 이용할 때는 아래 논문과 이 저장소를 함께 인용해 주십시오. / If you use this schema, please cite both the paper and this repository."
+type: software
+title: "excavation-record-schema: Relational schema for archaeological excavation records (Wolseong case study)"
+authors:
+  - family-names: "Min"
+    given-names: "Chanhong"
+version: 1.0.0
+date-released: "2026-09-14"
+repository-code: "https://github.com/mch5153/excavation-record-schema"
+url: "https://github.com/mch5153/excavation-record-schema"
+license: CC-BY-4.0
+keywords:
+  - archaeology
+  - excavation records
+  - archaeological primary data
+  - relational database
+  - logical schema
+  - controlled vocabulary
+  - digital archive
+  - Wolseong
+  - Gyeongju
+preferred-citation:
+  type: article
+  title: "고고학 원천자료의 구조화된 적재를 위한 데이터베이스 설계 – 월성 발굴조사 자료를 중심으로 –"
+  authors:
+    - family-names: "Min"
+      given-names: "Chanhong"
+  year: 2026
+  status: in-preparation
+  notes: "English title: A Database Design for the Structured Loading of Archaeological Source Data: The Case of the Wolseong Excavation, Gyeongju. Journal, volume and pages to be added upon publication."

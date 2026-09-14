@@ -1,0 +1,4 @@
+# 줄 끝은 LF 로 통일 (Windows 에서 편집해도 저장소에는 LF 로 들어간다)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
