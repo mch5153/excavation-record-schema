@@ -1,6 +1,6 @@
 # 데이터 사전
 
-릴레이션 30개 · 속성 141개(키 제외). 스키마 v2.0.0.
+릴레이션 43개 — 논문 대상 30개(속성 141개, 키 · 운영 속성 제외) · 시스템 운영 · 부가 13개. 스키마 v2.0.0.
 
 - 키: `PK` 기본키 · `FK` 외래키 · `NN` NOT NULL
 - 참조: `코드(X)` 는 `코드.코드ID` 참조, 허용 범위는 코드그룹 X
@@ -417,8 +417,20 @@ Documentation record · 공통 단위 · 조사 산출 자료(사진 · 도면 �
 | 촬영자 | varchar |  |  |
 | 촬영구분_cd | int | FK | 코드(촬영구분) |
 | 캡션 | varchar |  |  |
+| 저장파일명 | varchar |  |  |
+| 파일크기 | int |  |  |
+| 파일해시 | varchar |  |  |
+| 표시파일명 | varchar |  |  |
+| 썸네일파일명 | varchar |  |  |
+| 이미지폭 | int |  |  |
+| 이미지높이 | int |  |  |
+| 등록방식 | varchar |  |  |
+| 문서ID | varchar | FK | 행정문서.문서ID |
+| 정리상태_cd | int | FK | 코드(정리상태) |
+| 문헌ID | varchar | FK | 보고서.보고서ID |
 
-- CHECK — 조사ID · 구획ID · 기준층위ID · 토층ID · 유구ID · 유물ID · 분석ID 중 1개 이하 NOT NULL
+- 운영 속성: 저장파일명 · 파일크기 · 파일해시 · 표시파일명 · 썸네일파일명 · 이미지폭 · 이미지높이 · 등록방식 · 문서ID · 정리상태_cd · 문헌ID
+- CHECK — 조사ID · 구획ID · 기준층위ID · 토층ID · 유구ID · 유물ID · 분석ID · 문서ID · 문헌ID 중 1개 이하 NOT NULL
 
 ## 어휘 통제
 
@@ -434,7 +446,9 @@ Code · 독립 단위 · 통제 어휘. 계층은 상위코드ID 자기참조
 | 코드값 | varchar |  |  |
 | 정렬순서 | int |  |  |
 | 사용여부 | int |  |  |
+| 변경상태 | varchar |  |  |
 
+- 운영 속성: 변경상태
 - UNIQUE (코드ID, 상위코드ID)
 - UNIQUE (코드그룹, 상위코드ID, 코드값)
 
@@ -494,6 +508,223 @@ Change log · 기타 단위 · 속성값 변경 이력
 | 이후값 | varchar |  |  |
 | 변경자 | varchar |  |  |
 | 사유 | varchar |  |  |
+| 묶음ID | varchar |  |  |
+| 되돌림 | int |  |  |
+
+- 운영 속성: 묶음ID · 되돌림
+
+## 시스템 운영 · 부가
+
+### 인원
+
+Person · 조사 참여 인원 · 기관
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 인원ID | varchar | PK |  |
+| 성명 | varchar |  |  |
+| 기관명 | varchar |  |  |
+| 팀 | varchar |  |  |
+| 직책_직급 | varchar |  |  |
+| 연락처 | varchar |  |  |
+| 비고 | varchar |  |  |
+
+### 행정문서
+
+Administrative document · 행정 문서
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 문서ID | varchar | PK |  |
+| 문서번호 | varchar |  |  |
+| 문서명 | varchar |  |  |
+| 발신기관 | varchar |  |  |
+| 수신기관 | varchar |  |  |
+| 작성일자 | varchar |  |  |
+| 비고 | varchar |  |  |
+| 문서유형_cd | int | FK | 코드(문서유형) |
+| 시행일자 | varchar |  |  |
+| 담당자ID | varchar | FK | 인원.인원ID |
+| 보존기간_cd | int | FK | 코드(보존기간) |
+| 공개구분_cd | int | FK | 코드(공개구분) |
+
+### 보고서
+
+Reference · 보고서 · 참고문헌
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 보고서ID | varchar | PK |  |
+| 보고서명 | varchar |  |  |
+| 보고서유형_cd | int | FK | 코드(보고서유형) |
+| 저자 | varchar |  |  |
+| 발간기관 | varchar |  |  |
+| 발간연도 | int |  |  |
+| ISBN | varchar |  |  |
+| 소장처 | varchar |  |  |
+| 비고 | varchar |  |  |
+
+### 관리항목
+
+Management decision · 유물 관리 상태 결정 기록
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 관리ID | varchar | PK |  |
+| 유물ID | varchar | FK NN | 유물.유물ID |
+| 관리항목_cd | int | FK | 코드(관리항목) |
+| 결정일자 | varchar |  |  |
+| 담당자ID | varchar | FK | 인원.인원ID |
+| 비고 | varchar |  |  |
+
+### 이동사항
+
+Transfer · 유물 이동 · 보관 이력
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 이동ID | varchar | PK |  |
+| 유물ID | varchar | FK | 유물.유물ID |
+| 이동성격_cd | int | FK | 코드(이동성격) |
+| 이전보관처_cd | int | FK | 코드(보관처) |
+| 이전보관_장 | varchar |  |  |
+| 이전보관_단 | varchar |  |  |
+| 이전보관_열 | varchar |  |  |
+| 현재보관처_cd | int | FK | 코드(보관처) |
+| 현재보관_장 | varchar |  |  |
+| 현재보관_단 | varchar |  |  |
+| 현재보관_열 | varchar |  |  |
+| 이동일자 | varchar |  |  |
+| 담당자ID | varchar | FK | 인원.인원ID |
+| 비고 | varchar |  |  |
+| 용기번호 | varchar |  |  |
+| 정리상태_cd | int | FK | 코드(유물정리상태) |
+
+### 자료연결
+
+Record link · 조사자료 – 개체 N:M
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 연결ID | int | PK |  |
+| 조사자료ID | varchar | FK NN | 조사자료.조사자료ID |
+| 대상테이블 | varchar | NN |  |
+| 대상ID | varchar | NN |  |
+| 비고 | varchar |  |  |
+
+- UNIQUE (조사자료ID, 대상테이블, 대상ID)
+
+### 개체연결
+
+Entity link · 외래키가 없는 개체 간 연결
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 연결ID | int | PK |  |
+| 기준테이블 | varchar | NN |  |
+| 기준ID | varchar | NN |  |
+| 대상테이블 | varchar | NN |  |
+| 대상ID | varchar | NN |  |
+| 관계 | varchar |  |  |
+| 비고 | varchar |  |  |
+
+- UNIQUE (기준테이블, 기준ID, 대상테이블, 대상ID)
+
+### 컬럼_코드그룹_매핑
+
+Column–code group mapping · 속성별 코드그룹 지정
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 소속테이블 | varchar |  |  |
+| DB컬럼 | varchar |  |  |
+| 참조_코드그룹 | varchar |  |  |
+| 계층 | varchar |  |  |
+| 비고 | varchar |  |  |
+| 표시명 | varchar |  |  |
+
+### 코드변경로그
+
+Code change log · 코드 변경 이력
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 로그ID | int | PK |  |
+| 시각 | varchar |  |  |
+| 작업 | varchar |  |  |
+| 코드ID | int |  |  |
+| 코드그룹 | varchar |  |  |
+| 이전값 | varchar |  |  |
+| 이후값 | varchar |  |  |
+| 복구됨 | int |  |  |
+
+### UI라벨
+
+UI label · 화면 표시명
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 종류 | varchar | PK |  |
+| 키 | varchar | PK |  |
+| 표시명 | varchar |  |  |
+
+### 삭제로그
+
+Deletion log · 삭제 이력
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 로그ID | int | PK |  |
+| 시각 | varchar |  |  |
+| 테이블 | varchar |  |  |
+| 키 | varchar |  |  |
+| 이름 | varchar |  |  |
+| 함께삭제 | int |  |  |
+| 내역 | varchar |  |  |
+| 묶음ID | varchar |  |  |
+| 상태 | varchar |  |  |
+| 삭제자 | varchar |  |  |
+
+### 휴지통
+
+Trash · 삭제 행 보관
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 휴지통ID | int | PK |  |
+| 묶음ID | varchar | NN |  |
+| 시각 | varchar |  |  |
+| 테이블 | varchar |  |  |
+| 키 | varchar |  |  |
+| 이름 | varchar |  |  |
+| 깊이 | int |  |  |
+| 내용 | varchar |  |  |
+| 복원됨 | int |  |  |
+
+### 유사도색인
+
+Similarity index · 속성 유사도 조회용 색인
+
+| 속성 | 자료형 | 키 | 참조 |
+|---|---|---|---|
+| 표 | varchar | NN |  |
+| 개체ID | varchar | NN |  |
+| 칸 | varchar | NN |  |
+| 라벨 | varchar |  |  |
+| 묶음 | varchar |  |  |
+| 순 | int |  |  |
+| 값 | varchar |  |  |
+| 값글 | varchar |  |  |
+| 수 | float |  |  |
+| 원수 | float |  |  |
+| 단위 | varchar |  |  |
+| 셈 | int |  |  |
+
+## 뷰
+
+| 뷰 | 정의 | 속성 |
+|---|---|---|
+| v_자료연결 | 조사자료의 주대상(FK)과 자료연결의 통합 | 조사자료ID · 대상테이블 · 대상ID · 연결경로 |
 
 ## 코드그룹
 
@@ -537,8 +768,17 @@ Change log · 기타 단위 · 속성값 변경 이력
 | 분석종류 | 과학분석.분석종류_cd |  | 16 |
 | 자료유형 | 조사자료.자료유형_cd |  | 11 |
 | 촬영구분 | 조사자료.촬영구분_cd |  | 7 |
+| 정리상태 | 조사자료.정리상태_cd |  | 5 |
 | 관계유형 | 코드관계매핑.관계유형_cd |  | 8 |
 | 고유속성항목 | 고유속성.속성_cd |  | 8 |
 | 연화문속성항목 | 고유속성.속성_cd |  | 12 |
+| 문서유형 | 행정문서.문서유형_cd |  | 12 |
+| 보존기간 | 행정문서.보존기간_cd |  | 7 |
+| 공개구분 | 행정문서.공개구분_cd |  | 3 |
+| 보고서유형 | 보고서.보고서유형_cd |  | 5 |
+| 관리항목 | 관리항목.관리항목_cd |  | 4 |
+| 이동성격 | 이동사항.이동성격_cd | ○ | 16 |
+| 보관처 | 이동사항.이전보관처_cd · 이동사항.현재보관처_cd | ○ | 7 |
+| 유물정리상태 | 이동사항.정리상태_cd |  | 5 |
 
 `고유속성.속성값_cd` 의 코드그룹(20): 화판구분 · 기초형식 · 벽체구조 · 매장주체부 · 봉토구조 · 축조기법 · 생산품목 · 태토 · 연잎형태 · 유문자형유무 · 연판_판단형태 · 연판_단면형태 · 연판_능선유무 · 연판_단부장식 · 자방_연자배치 · 자방_단면형태 · 자방_경계처리 · 권선 · 간엽 · 연판_판엽형태

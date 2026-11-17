@@ -15,8 +15,10 @@
 
 ## 범위
 
-- 릴레이션 30개 · 속성 141개(키 제외) — 논문 표 3 · 표 4
-- 제외: 시스템 운영 · 부가 릴레이션과 속성, 적재 자료, 코드값
+- 릴레이션 43개 · 뷰 1개
+  - 논문 대상 30개 · 속성 141개(키 · 운영 속성 제외) — 논문 표 3 · 표 4
+  - 시스템 운영 · 부가 13개
+- 제외: 적재 자료, 코드값
 
 ## 릴레이션
 
@@ -33,6 +35,7 @@
 | 연관 | 유구·유물 | 유구관계 · 조합개체 · 매핑_유구_구획 · 매핑_유구_층서 |
 | 연관 | 어휘 통제 | 코드관계매핑 |
 | 기타 | 기록 변경 | 기록변경로그 |
+| — | 시스템 운영 · 부가 | 인원 · 행정문서 · 보고서 · 관리항목 · 이동사항 · 자료연결 · 개체연결 · 컬럼_코드그룹_매핑 · 코드변경로그 · UI라벨 · 삭제로그 · 휴지통 · 유사도색인 |
 
 ## 조회 방법
 
@@ -49,7 +52,7 @@
 
 Relational logical schema for archaeological excavation records; schema appendix of *A Database Design for the Structured Loading of Archaeological Source Data: The Case of the Wolseong Excavation, Gyeongju* (MIN Chanhong).
 
-- 30 relations, 141 non-key attributes. Relation and attribute names are in Korean as in the paper; English relation names are given in the [data dictionary](docs/data-dictionary.md).
+- 43 relations and 1 view: the 30 relations described in the paper (141 non-key attributes) and 13 system relations. Relation and attribute names are in Korean as in the paper; English relation names are given in the [data dictionary](docs/data-dictionary.md).
 - `schema/schema.sql` — DDL (standard SQL) · `docs/data-dictionary.md` — data dictionary · `docs/erd.md` — ERD.
 - Attributes suffixed `_cd` reference `코드.코드ID`; the permitted code group is the domain.
 - License CC BY 4.0. Citation: `CITATION.cff`.
