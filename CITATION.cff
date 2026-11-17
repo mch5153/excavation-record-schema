@@ -5,8 +5,8 @@ title: "excavation-record-schema: Relational schema for archaeological excavatio
 authors:
   - family-names: "Min"
     given-names: "Chanhong"
-version: 1.0.0
-date-released: "2026-09-14"
+version: 2.0.0
+date-released: "2026-11-17"
 repository-code: "https://github.com/mch5153/excavation-record-schema"
 url: "https://github.com/mch5153/excavation-record-schema"
 license: CC-BY-4.0
